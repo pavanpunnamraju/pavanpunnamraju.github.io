@@ -137,9 +137,9 @@ export const projects = [
 },summary:'Grew from research intern to Head of Product Development and Innovation, leading the development of a wearable health app used by 100+ people.',image:'assets/neuramod-preview.png',imageAlt:'NRTR health interface showing lifestyle factors and estimated lab impact',imageFit:'contain',url:'https://nrtr.health/index.html',label:'Website'}
 ];
 export const memories = [
-{caption:'Captain Po 🐼',asset:'assets/captain-po.webp',width:2560,height:3200,alt:'Pavan on stage as Po during his second-year season'},
-{caption:'A season to remember',asset:'assets/dance-trophies.jpg',width:1365,height:2048,alt:'Pavan seated beside dance trophies'},
-{caption:'High school nationals',asset:'assets/basketball-nationals.jpg',width:1440,height:1800,alt:'Pavan holding a basketball on court at high-school nationals'},
-{caption:'Exploring San Diego',asset:'assets/exploring-san-diego.jpg',width:1536,height:2048,alt:'Sunset over the ocean and rocky San Diego shoreline'}
+{caption:'Captain Po 🐼',note:"Led UCSD’s fusion Bollywood dance team as choreography captain during my second year.",asset:'assets/captain-po.webp',width:2560,height:3200,alt:'Pavan on stage as Po during his second-year season'},
+{caption:'A season to remember',note:"Won two trophies across three nationwide fusion competitions.",asset:'assets/dance-trophies.jpg',width:1365,height:2048,alt:'Pavan seated beside dance trophies'},
+{caption:'High school nationals',note:"Part of the starting five on my high school basketball team.",asset:'assets/basketball-nationals.jpg',width:1440,height:1800,alt:'Pavan holding a basketball on court at high-school nationals'},
+{caption:'Exploring San Diego',note:"Love sunny San Diego.",asset:'assets/exploring-san-diego.jpg',width:1536,height:2048,alt:'Sunset over the ocean and rocky San Diego shoreline'}
 ];
 export const danceVideo = 'assets/dance.mp4';

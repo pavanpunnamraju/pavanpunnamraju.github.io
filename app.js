@@ -1,5 +1,5 @@
 import {projects,memories,danceVideo} from './content.js';
-import {createFlightRoute,pathData,distanceAtScroll} from './flight-path.js';
+import {createFlightRoute,pathData,distanceAtScroll,paceFlightSegments} from './flight-path.js';
 import {openingFrame,openingShape,openingColor} from './opening-fold.js';
 import {detailFrame} from './detail-fold.js';
 const $=s=>document.querySelector(s), reduced=matchMedia('(prefers-reduced-motion: reduce)');
@@ -124,7 +124,7 @@ function attachProjectVideo(container,project){
  return toggle;
 }
 projects.forEach((p,i)=>{const section=el('section','project stop');section.id=`project-${i+1}`;section.append(el('p','eyebrow number',`0${i+1} / ${i<3?'PROJECTS':'WORK'}`));const media=el(p.video?'div':'button','open-media');if(!p.video){media.setAttribute('aria-label',`Open ${p.title} details`);media.setAttribute('aria-haspopup','dialog');}const picture=el('div','project-media');let playbackToggle;if(p.video){picture.classList.add('has-video');playbackToggle=attachProjectVideo(picture,p);}else if(p.image){const img=el('img');img.src=p.image;img.alt=p.imageAlt||`${p.title} project`;img.loading='lazy';if(p.imageFit)img.style.objectFit=p.imageFit;picture.append(img);}else picture.textContent=`${p.title} · image placeholder`;media.append(picture);if(p.imageCaption)media.append(el('span','media-caption',p.imageCaption));if(playbackToggle)media.append(playbackToggle);const row=el('div','title-row'),h=el('h2','cutout section-title'),title=el('button');setCutoutTitle(title,p.title);title.setAttribute('aria-haspopup','dialog');h.append(title);row.append(h);if(p.url){const a=el('a','',`${p.label} ↗`);a.href=p.url;row.append(a);}const more=el('button','detail-link','Explore project ↗');more.setAttribute('aria-label',`Explore ${p.title}`);more.setAttribute('aria-haspopup','dialog');[...(p.video?[]:[media]),title,more].forEach(b=>b.onclick=()=>openProject(p,b));section.append(media,row,el('p','summary',p.summary),more);$('#projects').append(section);});
-memories.forEach(m=>{const f=el('figure','memory stop');if(m.asset){const img=el('img');img.src=m.asset;img.alt=m.alt;img.loading='lazy';img.decoding='async';if(m.width&&m.height){img.width=m.width;img.height=m.height;}f.append(img);}else{const box=el('div','photo-placeholder',m.alt);box.append(el('small','','PHOTO PLACEHOLDER'));f.append(box);}f.append(el('figcaption','',m.caption));$('#memories').append(f);});
+memories.forEach(m=>{const f=el('figure','memory stop');if(m.asset){const img=el('img');img.src=m.asset;img.alt=m.alt;img.loading='lazy';img.decoding='async';if(m.width&&m.height){img.width=m.width;img.height=m.height;}f.append(img);}else{const box=el('div','photo-placeholder',m.alt);box.append(el('small','','PHOTO PLACEHOLDER'));f.append(box);}const caption=el('figcaption','',m.caption);if(m.note)caption.append(' ',el('em','memory-note',m.note));f.append(caption);$('#memories').append(f);});
 const route=$('#route'),path=$('#route path'),journey=$('#journey');let length=0,segments=[],sheetHeight=0;
 const opening=$('.opening'),paperCopy=$('.paper-copy');
 function placeSheet(){
@@ -146,6 +146,7 @@ function measure(){
     path.setAttribute('d',pathData(geometry.commands.slice(0,anchor.command+1)));
     return {y:anchor.y,l:anchor.command===0?0:path.getTotalLength()};
   });
+  segments=paceFlightSegments(segments,geometry.pacingRanges);
   path.setAttribute('d',pathData(geometry.commands));
   length=path.getTotalLength();
   update();

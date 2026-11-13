@@ -74,3 +74,6 @@ dialog .close{position:fixed;z-index:2;background:#d9edf2}
 @media(max-width:650px){.detail-section{grid-template-columns:1fr;gap:12px;padding:22px 0}.detail-section h3{font-size:18px}}
 
 .detail-section-body p+p{margin-top:14px}
+
+/* Consistent secondary photo notes stay inside each measured flight-path stop. */
+.memory-note{display:block;max-width:32ch;margin:10px auto 0;padding:0 8px;font-family:Arial,Helvetica,sans-serif;font-size:14px;font-weight:400;font-style:italic;line-height:1.55;letter-spacing:normal;color:var(--body);text-align:center}

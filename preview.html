@@ -75,11 +75,14 @@ dialog .close{position:fixed;z-index:2;background:#d9edf2}
 @media(max-width:650px){.detail-section{grid-template-columns:1fr;gap:12px;padding:22px 0}.detail-section h3{font-size:18px}}
 
 .detail-section-body p+p{margin-top:14px}
+
+/* Consistent secondary photo notes stay inside each measured flight-path stop. */
+.memory-note{display:block;max-width:32ch;margin:10px auto 0;padding:0 8px;font-family:Arial,Helvetica,sans-serif;font-size:14px;font-weight:400;font-style:italic;line-height:1.55;letter-spacing:normal;color:var(--body);text-align:center}
 </style></head>
 <body><a class="skip" href="#work">Skip to work</a>
 <section class="opening" aria-label="A personal motivation"><div class="paper"><svg class="fold-sheet" viewBox="0 0 64 64" preserveAspectRatio="none" aria-hidden="true"><defs><pattern id="paper-rules" width="64" height="3" patternUnits="userSpaceOnUse"><path d="M0 0H64" stroke="#b7b7ae" stroke-width=".08"/></pattern><clipPath id="sheet-outline"><polygon/></clipPath></defs><polygon class="sheet-base"/><polygon class="sheet-top"/><polygon class="sheet-bottom"/><g class="sheet-lines" clip-path="url(#sheet-outline)"><rect width="64" height="64" fill="url(#paper-rules)"/><path d="M4.48 0V64" stroke="#703b36" stroke-opacity=".25" stroke-width=".06"/></g></svg><div class="paper-copy"><blockquote>“Cancer runs on the same evolutionary rules that let our species out-adapt everything else on this planet. We're smarter than to let it win, and I want to be part of the fight.”</blockquote><p class="signature">-Pavan Punnamraju, 2026</p><a class="scroll-note" href="#work">Follow along ↓</a></div></div></section>
 <main id="journey"><svg id="route" aria-hidden="true"><path/></svg>
-<header id="work" class="work-nav"><h1 class="cutout site-name"><span>Pavan</span> <span>Punnamraju</span></h1><nav aria-label="Sections"><a href="#intro">About</a><a href="#projects">Work</a><a href="#education">Education</a><a href="#club-experience">Club Experience</a><a href="#fun">Fun Stuff</a><a href="#contact">Contact</a></nav></header>
+<header id="work" class="work-nav"><h1 class="cutout site-name"><span>Pavan</span> <span>Punnamraju</span></h1><nav aria-label="Sections"><a href="#intro">About</a><a href="#projects">Work</a><a href="#education">Education</a><a href="#fun">Fun Stuff</a><a href="#contact">Contact</a></nav></header>
 <section id="intro" class="stop intro" aria-labelledby="intro-title">
 <h2 id="intro-title" class="cutout section-title"><span>Introduction</span></h2>
 <p>Ideas, to me, work like film does to a creative director. I pick a problem first, then learn whatever biology, math, or code it takes to make it real, using my team of AI agents to move faster. Pushback fuels that process, someone telling me straight up why something won't work is exactly how I find the version that does. That approach has taken me through 4+ projects, a head of product role at an AI-native healthcare consumer company, and a stack of courses from pancreatic cancer treatment to model quantization.</p>
@@ -87,7 +90,7 @@ dialog .close{position:fixed;z-index:2;background:#d9edf2}
 <p>If you're one of those people, or you just want to tell me why something won't work, <a href="#contact">let's talk.</a></p>
 </section>
 <div id="projects"></div>
-<section id="club-experience" class="project stop club-experience" aria-labelledby="club-title"><p class="eyebrow">05 / CLUB</p><div class="project-media"><img src="assets/triton-neurotech-emg-piano.jpg" alt="A person playing piano while wearing sensors on their forearms and hands" width="1200" height="675" loading="lazy" decoding="async"></div><h2 id="club-title" class="cutout section-title"><span>Triton</span> <span>Neurotech:</span> <span>EMG</span> <span>Piano</span></h2><p class="summary">Built a real-time finger movement prediction system using EMG signals, wrist angles, and PyTorch, achieving 10 ms latency and full range of motion.</p></section>
+<section id="club-experience" class="project stop club-experience" aria-labelledby="club-title"><p class="eyebrow">05 / CLUBS</p><div class="project-media"><img src="assets/triton-neurotech-emg-piano.jpg" alt="A person playing piano while wearing sensors on their forearms and hands" width="1200" height="675" loading="lazy" decoding="async"></div><h2 id="club-title" class="cutout section-title"><span>Triton</span> <span>Neurotech:</span> <span>EMG</span> <span>Piano</span></h2><p class="summary">Built a real-time finger movement prediction system using EMG signals, wrist angles, and PyTorch, achieving 10 ms latency and full range of motion.</p></section>
 <section id="education" class="stop education"><p class="eyebrow">06 / EDUCATION</p><h2 class="cutout section-title"><span>UC</span> <span>San</span> <span>Diego</span></h2><p>Major: Human Biology<br>Graduation: June, 2028<br>Honors: Provost Honors</p><h3 class="cutout small-title"><span>Selected</span> <span>coursework</span></h3><ul class="courses"><li>Cancer Biology <span>BIMM 134</span></li><li>Genetics <span>BICD 100</span></li><li>Intro to Python for Biologists <span>BILD 62</span></li><li>Neural Data Science <span>BIPN 162</span></li><li>Principles and Practice of AI <span>CSE 5</span></li></ul></section>
 
 <section id="fun"><p class="eyebrow">07 / AWAY FROM THE DESK</p><h2 class="cutout"><span>Fun</span> <span>Stuff</span></h2><div id="memories"></div><figure class="memory stop video-stop"><div class="video-wrap"><video id="dance" muted playsinline controls preload="none" aria-label="Dance performance sneak peek"></video><p id="video-status">Dance video placeholder · file pending</p></div><figcaption>Here’s a sneak peek!</figcaption><button id="play-video" hidden>Play dance video</button></figure></section>
@@ -232,10 +235,10 @@ const projects = [
 },summary:'Grew from research intern to Head of Product Development and Innovation, leading the development of a wearable health app used by 100+ people.',image:'assets/neuramod-preview.png',imageAlt:'NRTR health interface showing lifestyle factors and estimated lab impact',imageFit:'contain',url:'https://nrtr.health/index.html',label:'Website'}
 ];
 const memories = [
-{caption:'Captain Po 🐼',asset:'assets/captain-po.webp',width:2560,height:3200,alt:'Pavan on stage as Po during his second-year season'},
-{caption:'A season to remember',asset:'assets/dance-trophies.jpg',width:1365,height:2048,alt:'Pavan seated beside dance trophies'},
-{caption:'High school nationals',asset:'assets/basketball-nationals.jpg',width:1440,height:1800,alt:'Pavan holding a basketball on court at high-school nationals'},
-{caption:'Exploring San Diego',asset:'assets/exploring-san-diego.jpg',width:1536,height:2048,alt:'Sunset over the ocean and rocky San Diego shoreline'}
+{caption:'Captain Po 🐼',note:"Led UCSD’s fusion Bollywood dance team as choreography captain during my second year.",asset:'assets/captain-po.webp',width:2560,height:3200,alt:'Pavan on stage as Po during his second-year season'},
+{caption:'A season to remember',note:"Won two trophies across three nationwide fusion competitions.",asset:'assets/dance-trophies.jpg',width:1365,height:2048,alt:'Pavan seated beside dance trophies'},
+{caption:'High school nationals',note:"Part of the starting five on my high school basketball team.",asset:'assets/basketball-nationals.jpg',width:1440,height:1800,alt:'Pavan holding a basketball on court at high-school nationals'},
+{caption:'Exploring San Diego',note:"Love sunny San Diego.",asset:'assets/exploring-san-diego.jpg',width:1536,height:2048,alt:'Sunset over the ocean and rocky San Diego shoreline'}
 ];
 const danceVideo = 'assets/dance.mp4';
 
@@ -246,6 +249,7 @@ function createFlightRoute({width, stops, contactTop, contactBottom}) {
   const margin = mobile ? 18 : 32;
   const commands = [];
   const anchors = [];
+  const pacingRanges = [];
   let cursor;
   const move = (x, y) => { cursor = {x, y}; commands.push({type:'M', end:cursor}); };
   const curve = (c1, c2, end, scrollY = end.y) => {
@@ -284,6 +288,7 @@ function createFlightRoute({width, stops, contactTop, contactBottom}) {
   anchors.push({command:0,y:0});
   stops.forEach((stop, i) => {
     if(stop.kind==='video') {
+      const paceFrom=anchors.length-1;
       // The wide centered video gets a dedicated right-side bypass, not a loop.
       const x=mobile?width-22:stop.right+(width-stop.right)*.5;
       const crossY=i?(stops[i-1].bottom+stop.top)/2:stop.top*.5;
@@ -296,6 +301,7 @@ function createFlightRoute({width, stops, contactTop, contactBottom}) {
       sweep(x,stop.top-clearance,crossY,0);
       const bow=mobile?3:Math.min(24,(width-x-32)*.5);
       drift(x,stop.bottom+(mobile?20:36),bow);
+      pacingRanges.push({from:paceFrom,to:anchors.length-1});
       return;
     }
     const {x,direction,radius} = lanes[i];
@@ -316,7 +322,7 @@ function createFlightRoute({width, stops, contactTop, contactBottom}) {
   const endX = mobile ? 22 : width-margin-16;
   const crossY = ((stops.at(-1).kind==='video'?cursor.y:stops.at(-1).bottom)+endY)/2;
   sweep(endX,endY,crossY,stops.at(-1).kind==='video'?0:(mobile?3:18));
-  return {commands,anchors,mobile,end:cursor};
+  return {commands,anchors,pacingRanges,mobile,end:cursor};
 }
 
 function pathData(commands) {
@@ -333,6 +339,18 @@ function distanceAtScroll(y, segments) {
     }
   }
   return segments.at(-1).l;
+}
+
+// Spread the video approach over its whole scroll interval, rather than racing
+// across the horizontal gap in just a handful of scroll pixels.
+function paceFlightSegments(segments,ranges){
+ const paced=segments.map(segment=>({...segment}));
+ for(const {from,to} of ranges){
+   const start=segments[from],end=segments[to],length=end.l-start.l;
+   if(length<=0)continue;
+   for(let i=from+1;i<to;i++)paced[i].y=start.y+(end.y-start.y)*(segments[i].l-start.l)/length;
+ }
+ return paced;
 }
 
 const foldClamp=n=>Math.max(0,Math.min(1,n));
@@ -500,7 +518,7 @@ function attachProjectVideo(container,project){
  return toggle;
 }
 projects.forEach((p,i)=>{const section=el('section','project stop');section.id=`project-${i+1}`;section.append(el('p','eyebrow number',`0${i+1} / ${i<3?'PROJECTS':'WORK'}`));const media=el(p.video?'div':'button','open-media');if(!p.video){media.setAttribute('aria-label',`Open ${p.title} details`);media.setAttribute('aria-haspopup','dialog');}const picture=el('div','project-media');let playbackToggle;if(p.video){picture.classList.add('has-video');playbackToggle=attachProjectVideo(picture,p);}else if(p.image){const img=el('img');img.src=p.image;img.alt=p.imageAlt||`${p.title} project`;img.loading='lazy';if(p.imageFit)img.style.objectFit=p.imageFit;picture.append(img);}else picture.textContent=`${p.title} · image placeholder`;media.append(picture);if(p.imageCaption)media.append(el('span','media-caption',p.imageCaption));if(playbackToggle)media.append(playbackToggle);const row=el('div','title-row'),h=el('h2','cutout section-title'),title=el('button');setCutoutTitle(title,p.title);title.setAttribute('aria-haspopup','dialog');h.append(title);row.append(h);if(p.url){const a=el('a','',`${p.label} ↗`);a.href=p.url;row.append(a);}const more=el('button','detail-link','Explore project ↗');more.setAttribute('aria-label',`Explore ${p.title}`);more.setAttribute('aria-haspopup','dialog');[...(p.video?[]:[media]),title,more].forEach(b=>b.onclick=()=>openProject(p,b));section.append(media,row,el('p','summary',p.summary),more);$('#projects').append(section);});
-memories.forEach(m=>{const f=el('figure','memory stop');if(m.asset){const img=el('img');img.src=m.asset;img.alt=m.alt;img.loading='lazy';img.decoding='async';if(m.width&&m.height){img.width=m.width;img.height=m.height;}f.append(img);}else{const box=el('div','photo-placeholder',m.alt);box.append(el('small','','PHOTO PLACEHOLDER'));f.append(box);}f.append(el('figcaption','',m.caption));$('#memories').append(f);});
+memories.forEach(m=>{const f=el('figure','memory stop');if(m.asset){const img=el('img');img.src=m.asset;img.alt=m.alt;img.loading='lazy';img.decoding='async';if(m.width&&m.height){img.width=m.width;img.height=m.height;}f.append(img);}else{const box=el('div','photo-placeholder',m.alt);box.append(el('small','','PHOTO PLACEHOLDER'));f.append(box);}const caption=el('figcaption','',m.caption);if(m.note)caption.append(' ',el('em','memory-note',m.note));f.append(caption);$('#memories').append(f);});
 const route=$('#route'),path=$('#route path'),journey=$('#journey');let length=0,segments=[],sheetHeight=0;
 const opening=$('.opening'),paperCopy=$('.paper-copy');
 function placeSheet(){
@@ -522,6 +540,7 @@ function measure(){
     path.setAttribute('d',pathData(geometry.commands.slice(0,anchor.command+1)));
     return {y:anchor.y,l:anchor.command===0?0:path.getTotalLength()};
   });
+  segments=paceFlightSegments(segments,geometry.pacingRanges);
   path.setAttribute('d',pathData(geometry.commands));
   length=path.getTotalLength();
   update();

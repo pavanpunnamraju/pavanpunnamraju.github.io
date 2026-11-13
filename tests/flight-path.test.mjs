@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {createFlightRoute,distanceAtScroll,pathData} from '../flight-path.js';
+import {createFlightRoute,distanceAtScroll,pathData,paceFlightSegments} from '../flight-path.js';
 function point(c,t){const u=1-t;return {x:u**3*c.start.x+3*u*u*t*c.c1.x+3*u*t*t*c.c2.x+t**3*c.end.x,y:u**3*c.start.y+3*u*u*t*c.c1.y+3*u*t*t*c.c2.y+t**3*c.end.y};}
 function fixture(width){const mobile=width<=650,left=mobile?48:Math.max(28,(width-1060)/2),available=width-left-(mobile?24:left);let top=380;
 const stops=Array.from({length:10},(_,i)=>{const size=mobile?available:available*(i<5?.61:.43),x=mobile?left:i%2?width-left-size:left;const box={left:x,right:x+size,top,bottom:top+(i<5?420:580)};top=box.bottom+140;return box;});
@@ -29,4 +29,15 @@ for(const c of route.commands.filter(c=>c.type==='C'))for(let j=0;j<=100;j++){
  for(const box of input.stops)assert.ok(!(p.x+r>box.left&&p.x-r<box.right&&p.y+r>box.top&&p.y-r<box.bottom),'content clearance');
  if(p.y>last.top&&p.y<last.bottom)assert.ok(p.x-r>=last.right,'route stays right of video');
 }
+});
+
+test('video approach redistributes travel evenly without moving its endpoints',()=>{
+ const original=[{y:0,l:0},{y:400,l:220},{y:420,l:320},{y:430,l:650},{y:440,l:750},{y:900,l:1200},{y:1000,l:1300}];
+ const paced=paceFlightSegments(original,[{from:1,to:5}]);
+ assert.deepEqual(paced[0],original[0]);assert.deepEqual(paced[1],original[1]);assert.deepEqual(paced[5],original[5]);assert.deepEqual(paced[6],original[6]);
+ const speed=(list,i)=>(list[i].l-list[i-1].l)/(list[i].y-list[i-1].y);
+ for(let i=2;i<=5;i++)assert.ok(Math.abs(speed(paced,i)-1.96)<1e-9);
+ assert.ok(speed(paced,3)<speed(original,3)/3,'the horizontal crossing is substantially slower');
+ const positions=[400,450,500,600,700,850,900];
+ assert.deepEqual(positions.map(y=>distanceAtScroll(y,paced)),[...positions].reverse().map(y=>distanceAtScroll(y,paced)).reverse());
 });

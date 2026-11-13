@@ -5,6 +5,7 @@ export function createFlightRoute({width, stops, contactTop, contactBottom}) {
   const margin = mobile ? 18 : 32;
   const commands = [];
   const anchors = [];
+  const pacingRanges = [];
   let cursor;
   const move = (x, y) => { cursor = {x, y}; commands.push({type:'M', end:cursor}); };
   const curve = (c1, c2, end, scrollY = end.y) => {
@@ -43,6 +44,7 @@ export function createFlightRoute({width, stops, contactTop, contactBottom}) {
   anchors.push({command:0,y:0});
   stops.forEach((stop, i) => {
     if(stop.kind==='video') {
+      const paceFrom=anchors.length-1;
       // The wide centered video gets a dedicated right-side bypass, not a loop.
       const x=mobile?width-22:stop.right+(width-stop.right)*.5;
       const crossY=i?(stops[i-1].bottom+stop.top)/2:stop.top*.5;
@@ -55,6 +57,7 @@ export function createFlightRoute({width, stops, contactTop, contactBottom}) {
       sweep(x,stop.top-clearance,crossY,0);
       const bow=mobile?3:Math.min(24,(width-x-32)*.5);
       drift(x,stop.bottom+(mobile?20:36),bow);
+      pacingRanges.push({from:paceFrom,to:anchors.length-1});
       return;
     }
     const {x,direction,radius} = lanes[i];
@@ -75,7 +78,7 @@ export function createFlightRoute({width, stops, contactTop, contactBottom}) {
   const endX = mobile ? 22 : width-margin-16;
   const crossY = ((stops.at(-1).kind==='video'?cursor.y:stops.at(-1).bottom)+endY)/2;
   sweep(endX,endY,crossY,stops.at(-1).kind==='video'?0:(mobile?3:18));
-  return {commands,anchors,mobile,end:cursor};
+  return {commands,anchors,pacingRanges,mobile,end:cursor};
 }
 
 export function pathData(commands) {
@@ -92,4 +95,16 @@ export function distanceAtScroll(y, segments) {
     }
   }
   return segments.at(-1).l;
+}
+
+// Spread the video approach over its whole scroll interval, rather than racing
+// across the horizontal gap in just a handful of scroll pixels.
+export function paceFlightSegments(segments,ranges){
+ const paced=segments.map(segment=>({...segment}));
+ for(const {from,to} of ranges){
+   const start=segments[from],end=segments[to],length=end.l-start.l;
+   if(length<=0)continue;
+   for(let i=from+1;i<to;i++)paced[i].y=start.y+(end.y-start.y)*(segments[i].l-start.l)/length;
+ }
+ return paced;
 }
